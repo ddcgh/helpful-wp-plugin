@@ -208,6 +208,7 @@ class HelpfulQmark{
         $settings["yes_text"]   = "Thanks! What did you like about it? How could it have been improved?";
         $settings["thanks"]     = "Thank you for taking the time to leave feedback.";
         $settings["email"]      = "Would you like to leave your email?";
+        $settings["ipaddr_title"]  = "IP Address";
 
         $ga                     = array();
         $ga["ga"]               = 0;
@@ -318,6 +319,15 @@ class HelpfulQmark{
         update_post_meta($postID, __HELPFUL_PLUGIN_SLUG__ . $name, $value);
     }
 
+    /**
+     * Custom wrapper for the geoip_record_by_name function
+     * Please visit the link http://php.net/manual/en/function.geoip-record-by-name.php for further details of the function
+     * One needs to install the geoip.php in order to run the function 
+     */
+    public static function setLocationByIPAddr($IPAddr) {
+        return geoip_record_by_name($IPAddr);
+    }
+
     public static function formatDate($timestamp, $format){
         $df = new DateTime();
         $df->setTimestamp($timestamp);
@@ -412,6 +422,12 @@ class HelpfulQmark{
         $responseName   = $_POST["responseName"];
         $response       = $_POST["response"];
 
+        //IP address of the client user
+        $IPAddr         = $_SERVER['REMOTE_ADDR'];
+
+        // record of city, state, and country of the client user based on the IP address
+        $info = self::setLocationByIPAddr($IPAddr);
+
         switch($responseName){
             case "":
                 $numbers    = self::getPostMeta($id, "numbers");
@@ -421,6 +437,15 @@ class HelpfulQmark{
                 }
                 $numbers[$response] = $numbers[$response] + 1;
                 self::setPostMeta($id, "numbers", $numbers);
+
+                // save the IP address as value for the 'IPAddr' key
+                self::setPostMeta($id, "IP", $IPAddr);
+
+                // save the city, state, and country information
+                self::setPostMeta($id, "city", $info['city']);
+                self::setPostMeta($id, "state", $info['region']);
+                self::setPostMeta($id, "country", $info['country_name']);
+
                 break;
             case "yes":
             case "no":
@@ -526,6 +551,8 @@ class HelpfulQmark{
                             "no" => $numbers["no"],
                             "yesPercent" => ($numbers["yes"] + $numbers["no"] > 0) ? round(($numbers["yes"] * 100/($numbers["yes"] + $numbers["no"])), 1) : 0
             );
+            //get the IP address for each post
+            $IPAddr     = self::getPostMeta($post->ID, "IP");
         }
 
 
@@ -537,7 +564,8 @@ class HelpfulQmark{
                 "yes"           => $yesCount,
                 "no"            => $noCount,
                 "yesPercent"    => ($yesCount + $noCount > 0) ? round(($yesCount * 100/($yesCount + $noCount)), 1) : 0,
-                "stats"         => $stats
+                "stats"         => $stats,
+                "IPAddr"        => $IPAddr
         );
     }
 

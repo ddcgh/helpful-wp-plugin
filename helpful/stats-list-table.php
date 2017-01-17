@@ -28,6 +28,7 @@ class Stats_List_Table extends WP_List_Table {
             case 'no':
             case 'yesPercent':
             return $this->custom_column_value($column_name,$item);
+            case 'IPAddr':
             default:
             return print_r( $item, true ) ;
         }
@@ -43,6 +44,8 @@ class Stats_List_Table extends WP_List_Table {
                 return $item["no"];
             case 'yesPercent':
                 return $item["yesPercent"];
+            case 'IPAddr':
+                return $item["IPAddr"];
         }
         return "";
     }
@@ -61,6 +64,7 @@ class Stats_List_Table extends WP_List_Table {
           'yes'=>__($this->settings["yes_title"], __HELPFUL_PLUGIN_SLUG__),
           'no'=>__($this->settings["no_title"], __HELPFUL_PLUGIN_SLUG__),
           'yesPercent'=>__($this->settings["yes_title"], __HELPFUL_PLUGIN_SLUG__).'%',
+          'IPAddr'=>__($this->settings["ipaddr_title"], __HELPFUL_PLUGIN_SLUG__),
         );
     }
 
