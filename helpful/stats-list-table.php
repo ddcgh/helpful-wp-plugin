@@ -64,7 +64,7 @@ class Stats_List_Table extends WP_List_Table {
         );
     }
 
-    function bulk_actions() { return array();}
+    function bulk_actions($which = "") { return array();}
 
     function prepare_items(){
         $totalitems = count($this->allStats["stats"]);

@@ -133,7 +133,7 @@ class HelpfulQmark{
 
             wp_enqueue_style( 'wp-color-picker' );
             wp_enqueue_style('helpful-ui',
-                    'http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css',
+                    __HELPFUL_RESOURCES__ . 'css/jquery-ui-themes-1.12.1/themes/smoothness/jquery-ui.min.css',
                     false,
                     __HELPFUL_RESOURCES__,
                     false
@@ -143,10 +143,10 @@ class HelpfulQmark{
             wp_register_script("helpful", __HELPFUL_RESOURCES__ . "js/helpful.js");
             wp_enqueue_script("helpful");
 
-            wp_register_script("ga-classic", "http://www.google-analytics.com/ga.js");
+            wp_register_script("ga-classic", (stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? "https" : "http") . "://www.google-analytics.com/ga.js");
             wp_enqueue_script("ga-classic");
 
-            wp_register_script("ga-universal", "http://www.google-analytics.com/analytics.js");
+            wp_register_script("ga-universal", (stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? "https" : "http") . "://www.google-analytics.com/analytics.js");
             wp_enqueue_script("ga-universal");
         }
 
@@ -416,6 +416,7 @@ class HelpfulQmark{
             case "":
                 $numbers    = self::getPostMeta($id, "numbers");
                 if(!$numbers){
+		    $numbers = array();
                     $numbers["yes"] = 0;
                     $numbers["no"]  = 0;
                 }
@@ -517,6 +518,7 @@ class HelpfulQmark{
         $yesCount = $noCount = 0;
         foreach($posts as $post){
             $numbers    = self::getPostMeta($post->ID, "numbers");
+	    echo "Numbers: " . $numbers;
             $yesCount   += $numbers["yes"];
             $noCount    += $numbers["no"];
             $stats[]    = array(
