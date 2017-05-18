@@ -512,16 +512,15 @@ class HelpfulQmark{
     }
 
     public static function getStatistics($sortBy=NULL, $sortOrder=NULL){
-        $posts          = self::getAllPosts("numbers");
+        $posts = self::getAllPosts("numbers");
         if(!$posts) return NULL;
 
         $yesCount = $noCount = 0;
         foreach($posts as $post){
-            $numbers    = self::getPostMeta($post->ID, "numbers");
-	    echo "Numbers: " . $numbers;
-            $yesCount   += $numbers["yes"];
-            $noCount    += $numbers["no"];
-            $stats[]    = array(
+            $numbers = self::getPostMeta($post->ID, "numbers");
+            $yesCount += $numbers["yes"];
+            $noCount += $numbers["no"];
+            $stats[] = array(
                             "title" => $post->post_title,
                             "link" => get_permalink($post->ID),
                             "yes" => $numbers["yes"],
