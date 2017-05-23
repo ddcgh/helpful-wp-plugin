@@ -627,6 +627,7 @@ class HelpfulQmark{
                 if($comment['email'] && strlen($comment['email']) > 0){
                     $email  = $comment['email'];
                 }
+                $country = "Unknown";
                 if($comment['country'])
                 {
                     $country = $comment['country'];
@@ -659,9 +660,14 @@ class HelpfulQmark{
                 if($comment['email'] && strlen($comment['email']) > 0){
                     $email  = $comment['email'];
                 }
+                $country = "Unknown";
+                if($comment['country'])
+                {
+                    $country = $comment['country'];
+                }
 ?>
         <div class="item">
-            <div class="heading"><?php echo self::formatDate($comment["timestamp"], 'j F Y');?> <?php _e('by', __HELPFUL_PLUGIN_SLUG__);?> <?php echo $email;?></div>
+            <div class="heading"><?php echo self::formatDate($comment["timestamp"], 'j F Y');?> <?php _e('by', __HELPFUL_PLUGIN_SLUG__);?> <?php echo $email . " from " . $country;?></div>
             <div class="body"><?php echo $comment["comment"];?></div>
         </div>
 <?php

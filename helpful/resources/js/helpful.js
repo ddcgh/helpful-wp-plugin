@@ -37,7 +37,8 @@ function helpful_fireAjax(obj){
 
     jQuery.getJSON('//freegeoip.net/json/?callback=?', function(data) {
         params += "&country=" + escape(data["country_name"]);
-        params += "&ipaddr=" + escape(data["ipaddr"]);
+        params += "&ipaddr=" + escape(data["ip"]);
+        console.log(data);
         jQuery.ajax({
         url: jQuery("#helpful_url").val(),
         data: params,
