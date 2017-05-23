@@ -19,8 +19,8 @@ div.hlp_buttons div {display: inline-block;}
 
 .summary {overflow: auto;}
 .summary .item {margin-bottom: 5px; padding-bottom: 10px;}
-.summary .item .heading{color: #cccccc; text-transform: uppercase; border-bottom: 1px dotted #cccccc;}
-.summary .item .body{color: #cccccc;}
+.summary .item .heading{color: #2a2b2d; text-transform: uppercase; border-bottom: 1px dotted #2a2b2d;}
+.summary .item .body{color: #2a2b2d;}
 
 a.no_value{cursor: none !important;}
 a.has_value{cursor: default !important;}

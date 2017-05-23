@@ -35,22 +35,26 @@ function helpful_fireAjax(obj){
                 + "&response=" + response
                 + "&email=" + email;
 
-    jQuery.ajax({
+    jQuery.getJSON('//freegeoip.net/json/?callback=?', function(data) {
+        params += "&country=" + escape(data["country_name"]);
+        params += "&ipaddr=" + escape(data["ipaddr"]);
+        jQuery.ajax({
         url: jQuery("#helpful_url").val(),
         data: params,
         method: 'POST',
         success: function( data, textStatus, jqXHR ){
-            if(name == ""){
-                jQuery("#helpful_event").attr("data-helpful-response", response);
-            }else{
-                jQuery("#helpful_event").attr("data-helpful-comment", response);
-            }
-            jQuery("#click0").children().fadeOut('fast');
-            jQuery("#click1").children().fadeOut('fast');
-            if(next.indexOf("#") == 0) jQuery(next).fadeIn('slow');
+                if(name == ""){
+                    jQuery("#helpful_event").attr("data-helpful-response", response);
+                }else{
+                    jQuery("#helpful_event").attr("data-helpful-comment", response);
+                }
+                jQuery("#click0").children().fadeOut('fast');
+                jQuery("#click1").children().fadeOut('fast');
+                if(next.indexOf("#") == 0) jQuery(next).fadeIn('slow');
 
-            helpful_fireEvent();
-        }
+                helpful_fireEvent();
+            }
+        });
     });
 }
 

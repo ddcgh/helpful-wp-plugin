@@ -327,7 +327,7 @@ class HelpfulQmark{
     private static function download(){
         $posts      = self::getAllPosts("comments");
         $fields     = array();
-        $fields[]   = array("Title", "Link", "Response", "Comment", "Date");
+        $fields[]   = array("Title", "Link", "Response", "Comment", "Country", "IP", "Date");
         foreach($posts as $post){
             $comments   = self::getPostMeta($post->ID, "comments");
             foreach($comments as $response=>$commentList){
@@ -337,6 +337,8 @@ class HelpfulQmark{
                                     get_permalink($post->ID),
                                     $response,
                                     $comment["comment"],
+                                    $comment["country"],
+                                    $comment["ipaddr"],
                                     self::formatDate($comment["timestamp"], 'j F Y')
                     );
                 }
@@ -411,6 +413,8 @@ class HelpfulQmark{
         $type           = $_POST["type"];
         $responseName   = $_POST["responseName"];
         $response       = $_POST["response"];
+        $ip             = $_POST["ipaddr"];
+        $country        = $_POST["country"];
 
         switch($responseName){
             case "":
@@ -431,7 +435,7 @@ class HelpfulQmark{
                     $comments["yes"] = array();
                     $comments["no"]  = array();
                 }
-		        array_push($comments[$responseName], array("comment" => $response, "timestamp" => time(), "email" =>isset($_POST["email"]) ? $_POST["email"] : ""));
+		        array_push($comments[$responseName], array("comment" => $response, "timestamp" => time(), "country" => $country, "ipaddr" => $ip, "email" =>isset($_POST["email"]) ? $_POST["email"] : ""));
                 self::setPostMeta($id, "comments", $comments);
                 break;
             default:
@@ -474,8 +478,8 @@ class HelpfulQmark{
             $perPage    = 10;
         }
 
-        $orderby    = !empty($_GET["orderby"]) ? mysqli_real_escape_string($_GET["orderby"]) : 'yesPercent';
-        $order      = !empty($_GET["order"]) ? mysqli_real_escape_string($_GET["order"]) : 'DESC';
+        $orderby    = !empty($_GET["orderby"]) ? htmlspecialchars($_GET["orderby"]) : 'yesPercent';
+        $order      = !empty($_GET["order"]) ? htmlspecialchars($_GET["order"]) : 'DESC';
 
         $allStats   = self::getStatistics($orderby, $order);
         if(!$allStats) return;
@@ -515,6 +519,7 @@ class HelpfulQmark{
         $yesCount = $noCount = 0;
         foreach($posts as $post){
             $numbers = self::getPostMeta($post->ID, "numbers");
+            
             $yesCount += $numbers["yes"];
             $noCount += $numbers["no"];
             $stats[] = array(
@@ -622,9 +627,13 @@ class HelpfulQmark{
                 if($comment['email'] && strlen($comment['email']) > 0){
                     $email  = $comment['email'];
                 }
+                if($comment['country'])
+                {
+                    $country = $comment['country'];
+                }
 ?>
         <div class="item">
-            <div class="heading"><?php echo self::formatDate($comment["timestamp"], 'j F Y');?> <?php _e('by', __HELPFUL_PLUGIN_SLUG__);?> <?php echo $email;?></div>
+            <div class="heading"><?php echo self::formatDate($comment["timestamp"], 'j F Y');?> <?php _e('by', __HELPFUL_PLUGIN_SLUG__);?> <?php echo $email . " from " . $country; ?></div>
             <div class="body"><?php echo $comment["comment"];?></div>
         </div>
 <?php
