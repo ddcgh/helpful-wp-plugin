@@ -416,7 +416,7 @@ class HelpfulQmark{
             case "":
                 $numbers    = self::getPostMeta($id, "numbers");
                 if(!$numbers){
-		    $numbers = array();
+		            $numbers = array();
                     $numbers["yes"] = 0;
                     $numbers["no"]  = 0;
                 }
@@ -427,14 +427,11 @@ class HelpfulQmark{
             case "no":
                 $comments   = self::getPostMeta($id, "comments");
                 if(!$comments){
+                    $comments = array();
                     $comments["yes"] = array();
                     $comments["no"]  = array();
                 }
-                $comments[$responseName][]  = array(
-                                                    "comment" => $response,
-                                                    "timestamp" => time(),
-                                                    "email" => isset($_POST["email"]) ? $_POST["email"] : ""
-                );
+		        array_push($comments[$responseName], array("comment" => $response, "timestamp" => time(), "email" =>isset($_POST["email"]) ? $_POST["email"] : ""));
                 self::setPostMeta($id, "comments", $comments);
                 break;
             default:
@@ -477,8 +474,8 @@ class HelpfulQmark{
             $perPage    = 10;
         }
 
-        $orderby    = !empty($_GET["orderby"]) ? mysql_real_escape_string($_GET["orderby"]) : 'yesPercent';
-        $order      = !empty($_GET["order"]) ? mysql_real_escape_string($_GET["order"]) : 'DESC';
+        $orderby    = !empty($_GET["orderby"]) ? mysqli_real_escape_string($_GET["orderby"]) : 'yesPercent';
+        $order      = !empty($_GET["order"]) ? mysqli_real_escape_string($_GET["order"]) : 'DESC';
 
         $allStats   = self::getStatistics($orderby, $order);
         if(!$allStats) return;
