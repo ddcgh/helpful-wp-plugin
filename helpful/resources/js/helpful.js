@@ -1,3 +1,6 @@
+var ip          = "";
+var country     = "";
+
 jQuery(function() {
     jQuery( ".helpful_button" ).bind("click", function(){
         helpful_fireAjax(this);
@@ -19,6 +22,7 @@ function helpful_fireAjax(obj){
     var response    = send.indexOf("#") == 0 ? jQuery(send).val() : send;
 
     var email       = "";
+
     if(name != ""){
         var email       = jQuery("#email_" + name) ? jQuery("#email_" + name).val() : "";
         if(email != "" && !(email.indexOf("@") > 0 && email.indexOf(".") >= 0)){
@@ -26,6 +30,16 @@ function helpful_fireAjax(obj){
             return;
         }
     }
+
+    if(name == ""){
+        jQuery("#helpful_event").attr("data-helpful-response", response);
+    }else
+    {
+        jQuery("#helpful_event").attr("data-helpful-comment", response);
+    }
+    jQuery("#click0").children().fadeOut('fast');
+    jQuery("#click1").children().fadeOut('fast');
+    if(next.indexOf("#") == 0) jQuery(next).fadeIn('slow');
 
     var params  = "action=feedback"
                 + "&id=" + jQuery("#helpful_id").val()
@@ -35,28 +49,44 @@ function helpful_fireAjax(obj){
                 + "&response=" + response
                 + "&email=" + email;
 
-    jQuery.getJSON('//freegeoip.net/json/?callback=?', function(data) {
-        params += "&country=" + escape(data["country_name"]);
-        params += "&ipaddr=" + escape(data["ip"]);
-        console.log(data);
+    if(name == "")
+    {
+        jQuery.getJSON('//freegeoip.net/json/', function(data) {
+                ip =  data["ip"];
+                country =  data["country_name"];
+                jQuery.ajax({
+                    url: jQuery("#helpful_url").val(),
+                    data: params,
+                    method: 'POST',
+                    success: function( data, textStatus, jqXHR ){
+                            helpful_fireEvent();
+                        }
+                });
+        }).fail(function()
+                {
+                    jQuery.ajax({
+                    url: jQuery("#helpful_url").val(),
+                    data: params,
+                    method: 'POST',
+                    success: function( data, textStatus, jqXHR ){
+                            helpful_fireEvent();
+                        }
+                    });
+                });
+    }
+    else
+    {
+        params += "&ipaddr=" + ip;
+        params += "&country=" + country;
         jQuery.ajax({
-        url: jQuery("#helpful_url").val(),
-        data: params,
-        method: 'POST',
-        success: function( data, textStatus, jqXHR ){
-                if(name == ""){
-                    jQuery("#helpful_event").attr("data-helpful-response", response);
-                }else{
-                    jQuery("#helpful_event").attr("data-helpful-comment", response);
+                url: jQuery("#helpful_url").val(),
+                data: params,
+                method: 'POST',
+                success: function( data, textStatus, jqXHR ){
+                        helpful_fireEvent();
                 }
-                jQuery("#click0").children().fadeOut('fast');
-                jQuery("#click1").children().fadeOut('fast');
-                if(next.indexOf("#") == 0) jQuery(next).fadeIn('slow');
-
-                helpful_fireEvent();
-            }
         });
-    });
+    } 
 }
 
 function helpful_fireEvent(){
