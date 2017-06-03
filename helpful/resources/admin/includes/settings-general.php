@@ -70,7 +70,7 @@
 <?php $ga   = $settings["ga"]; ?>
 
 <h2 class="helpful"><?php _e('Google Analytics', __HELPFUL_PLUGIN_SLUG__);?></h2>
-<p class="description"><?php _e("You need to already have Google Analytics tracking on your website for this to work - this just adds tracking for the feedback", __HELPFUL_PLUGIN_SLUG__);?></p>
+<p class="description"><?php _e("You need to already have Google Analytics tracking on your website for this to work - this just adds tracking for the feedback. We do not support classic Google Analytics since it is deprecated, so your website must be using universal Google Analytics.", __HELPFUL_PLUGIN_SLUG__);?></p>
 <table class="helpful_settings ga">
     <tr>
         <th><?php _e('Enable Analytics', __HELPFUL_PLUGIN_SLUG__);?></th>
@@ -78,42 +78,9 @@
         <td></td>
     </tr>
     <tr class="<?php echo $ga["ga"] == 1 ? "ga_enabled" : "ga_disabled"?>">
-        <th><?php _e('Google Analytics Type', __HELPFUL_PLUGIN_SLUG__);?></th>
-        <td>
-            <input type="radio" name="ga_type" id="ga_type_universal" value="universal" <?php echo $ga["ga_type"] == "universal" ? "checked" : ""?> onclick="helpful_toggleGAtracking(this, ['#ga_tracking_custom', '#ga_tag'], false)">
-            <label for="ga_type_universal"><?php _e('Universal', __HELPFUL_PLUGIN_SLUG__);?></label>
-            <p class="description"><?php _e('(current standard)', __HELPFUL_PLUGIN_SLUG__);?></p>
-        </td>
-        <td>
-            <input type="radio" name="ga_type" id="ga_type_classic" value="classic" <?php echo $ga["ga_type"] == "classic" ? "checked" : ""?> onclick="helpful_toggleGAtracking(this, ['#ga_tracking_custom', '#ga_tag'], true)">
-            <label for="ga_type_classic"><?php _e('Classic', __HELPFUL_PLUGIN_SLUG__);?></label>
-            <p class="description"><?php _e('(deprecated)', __HELPFUL_PLUGIN_SLUG__);?></p>
-        </td>
-    </tr>
-    <tr class="<?php echo $ga["ga"] == 1 ? "ga_enabled" : "ga_disabled"?>">
         <th><?php _e('Google Tag Manager', __HELPFUL_PLUGIN_SLUG__);?></th>
-        <td><input type="checkbox" name="ga_tag" id="ga_tag" value="1" <?php echo @$ga["ga_tag"] == 1 ? "checked" : ""?> <?php echo $settings["ga"]["ga_type"] == "classic" ? "disabled" : ""?></td>
+        <td><input type="checkbox" name="ga_tag" id="ga_tag" value="1" <?php echo @$ga["ga_tag"] == 1 ? "checked" : ""?> 	</td>
         <td></td>
-    </tr>
-    <tr class="<?php echo $ga["ga"] == 1 ? "ga_enabled" : "ga_disabled"?>">
-        <th><?php _e('Tracking Method', __HELPFUL_PLUGIN_SLUG__);?></th>
-        <td>
-            <input type="hidden" name="ga_tracking[]" id="ga_tracking_event" value="event">
-            <input type="checkbox" checked disabled>
-            <label for="ga_tracking_event"><?php _e('Event Tracking', __HELPFUL_PLUGIN_SLUG__);?></label>
-            <p class="description"><?php _e('(no additional setup required)', __HELPFUL_PLUGIN_SLUG__);?></p>
-        </td>
-<?php
-    if(__HELPFUL_ENABLE_GA_CUSTOM__){
-?>
-        <td>
-            <input type="checkbox" name="ga_tracking[]" id="ga_tracking_custom" value="custom" <?php echo in_array("custom", $ga["ga_tracking"]) ? "checked" : ""?> <?php echo $settings["ga"]["ga_type"] == "classic" ? "disabled" : ""?>>
-            <label for="ga_tracking_custom"><?php _e('Custom Metrics & Dimensions', __HELPFUL_PLUGIN_SLUG__);?></label>
-            <p class="description"><?php _e('(requires additional setup)', __HELPFUL_PLUGIN_SLUG__);?> <a href="https://support.google.com/analytics/answer/2709828?hl=en" target="_new"><?php _e('Click here', __HELPFUL_PLUGIN_SLUG__);?></a></p>
-        </td>
-<?php
-    }
-?>
     </tr>
 </table>
 

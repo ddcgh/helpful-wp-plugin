@@ -143,9 +143,6 @@ class HelpfulQmark{
             wp_register_script("helpful", __HELPFUL_RESOURCES__ . "js/helpful.js");
             wp_enqueue_script("helpful");
 
-            wp_register_script("ga-classic", (stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? "https" : "http") . "://www.google-analytics.com/ga.js");
-            wp_enqueue_script("ga-classic");
-
             wp_register_script("ga-universal", (stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? "https" : "http") . "://www.google-analytics.com/analytics.js");
             wp_enqueue_script("ga-universal");
         }
