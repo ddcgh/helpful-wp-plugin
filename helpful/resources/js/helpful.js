@@ -104,45 +104,32 @@ function helpful_fireEvent(){
     var gaTracking  = jQuery("#helpful_ga").attr("data-helpful-ga-tracking");
     var gaTagMgr    = jQuery("#helpful_ga").attr("data-helpful-ga-tag");
 
-    if(gaType == "universal"){
+    if(gaTagMgr == 1)
+    {
         try{
-            if(gaTracking.indexOf(",event,") != -1){
-                ga('send', 'event', category, event, response);
-                console.log("Done! " + gaType + " for " + gaTracking + " category, event, response: " + category + ", " + event + ", " + response);
-            }
-            if(gaTracking.indexOf(",custom,") != -1){
-                var metric  = response == "yes" ? "metric1" : "metric2";
-                ga("set", {
-                  "dimension1": event,
-                  metric: 1
-                });
-                ga('send', 'pageview');
-                console.log("Done! " + gaType + " for " + gaTracking + " metric, event: " + metric + ", " + event);
-            }
-
+            dataLayer.push({
+                'event': category,
+                'pluginName': category,
+                'pageTitle': event,
+                'response': response
+            });
+            console.log("Submitted to Google Tag Manager! {event: " + category + ", pluginName: " + category + ", pageTitle: " + event + ", response: " + response + "}");
         }catch(error){
-            console.log("Error in " + gaType + " for " + gaTracking + " = " + error);
-        }
-    }else{
-        try{
-            _gaq.push(['_trackEvent', category, event, response]);
-            console.log("Done! " + gaType + " for " + gaTracking + " category, event, response: " + category + ", " + event + ", " + response);
-        }catch(error){
-            console.log("Error in " + gaType + " for " + gaTracking + " = " + error);
+                console.log("Error in Google Tag Manager Submission! Error: " + error);
         }
     }
-
-    try{
-        if(gaTagMgr == 1){
-            dataLayer.push({
-                'pageTitle': category,
-                'pageTitle': event,
-                'pageTitle': comment,
-            });
-            console.log("Done! gaTagMgr");
+    else
+    {
+        if(gaType == "universal"){
+            try{
+                if(gaTracking.indexOf(",event,") != -1){
+                    ga('send', 'event', category, event, response);
+                    console.log("Submitted to Google Analytics! Analytics Type: " + gaType + " Tracking: " + gaTracking + " Category, Event, Response: " + category + ", " + event + ", " + response);
+                }
+            }catch(error){
+                console.log("Error in Google Analytics Submission! Type: " + gaType + " Tracking: " + gaTracking + " Error: " + error);
+            }
         }
-    }catch(error){
-            console.log("Error in gaTagMgr = " + error);
     }
 }
 

@@ -92,9 +92,10 @@ class Stats_List_Table extends WP_List_Table {
           $sortable = $this->get_sortable_columns();
 
           $this->_column_headers = array( $columns, $hidden, $sortable );
-
-          $stats    = array_slice($this->allStats["stats"], $offset, $this->perPage, true);
-          $this->items = $stats;
-
+          if($this->allStats["stats"])
+          {
+            $stats    = array_slice($this->allStats["stats"], $offset, $this->perPage, true);
+            $this->items = $stats;
+          }
      }
 }

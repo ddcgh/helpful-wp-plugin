@@ -70,7 +70,7 @@
 <?php $ga   = $settings["ga"]; ?>
 
 <h2 class="helpful"><?php _e('Google Analytics', __HELPFUL_PLUGIN_SLUG__);?></h2>
-<p class="description"><?php _e("You need to already have Google Analytics tracking on your website for this to work - this just adds tracking for the feedback. We do not support classic Google Analytics since it is deprecated, so your website must be using universal Google Analytics.", __HELPFUL_PLUGIN_SLUG__);?></p>
+<p class="description"><?php _e("You need to already have Google Analytics tracking on your website for this to work - this just adds tracking for the feedback. We do not support classic Google Analytics since it is deprecated, so your website must be using either universal Google Analytics or Google Tag Manager. Enabling Google Tag Manager will automatically disable regular Google Analytics.", __HELPFUL_PLUGIN_SLUG__);?></p>
 <table class="helpful_settings ga">
     <tr>
         <th><?php _e('Enable Analytics', __HELPFUL_PLUGIN_SLUG__);?></th>

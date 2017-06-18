@@ -209,7 +209,7 @@ class HelpfulQmark{
         $ga                     = array();
         $ga["ga"]               = 0;
         $ga["ga_tag"]           = 0;
-        $ga["ga_type"]          = "";
+        $ga["ga_type"]          = "universal";
         $ga["ga_tracking"]      = array("event");
         $settings["ga"]         = $ga;
 
@@ -373,8 +373,8 @@ class HelpfulQmark{
         $ga                     = array();
         $ga["ga"]               = isset($_POST['ga']) ? 1 : 0;
         $ga["ga_tag"]           = isset($_POST['ga_tag']) ? 1 : 0;
-        $ga["ga_type"]          = isset($_POST['ga_type']) ? $_POST['ga_type'] : "";
-        $ga["ga_tracking"]      = isset($_POST['ga_tracking']) ? $_POST['ga_tracking'] : array();
+        $ga["ga_type"]          = "universal";
+        $ga["ga_tracking"]      = array("event");
         //$ga["ga_code"]          = $_POST['ga_code'];
         $settings["ga"]         = $ga;
 
@@ -479,7 +479,6 @@ class HelpfulQmark{
         $order      = !empty($_GET["order"]) ? htmlspecialchars($_GET["order"]) : 'DESC';
 
         $allStats   = self::getStatistics($orderby, $order);
-        if(!$allStats) return;
         $settings   = self::getSettings();
 ?>
 <div class="stats">
@@ -511,28 +510,28 @@ class HelpfulQmark{
 
     public static function getStatistics($sortBy=NULL, $sortOrder=NULL){
         $posts = self::getAllPosts("numbers");
-        if(!$posts) return NULL;
 
         $yesCount = $noCount = 0;
-        foreach($posts as $post){
-            $numbers = self::getPostMeta($post->ID, "numbers");
-            
-            $yesCount += $numbers["yes"];
-            $noCount += $numbers["no"];
-            $stats[] = array(
-                            "title" => $post->post_title,
-                            "link" => get_permalink($post->ID),
-                            "yes" => $numbers["yes"],
-                            "no" => $numbers["no"],
-                            "yesPercent" => ($numbers["yes"] + $numbers["no"] > 0) ? round(($numbers["yes"] * 100/($numbers["yes"] + $numbers["no"])), 1) : 0
-            );
+        if($posts)
+        {
+            foreach($posts as $post){
+                $numbers = self::getPostMeta($post->ID, "numbers");
+                
+                $yesCount += $numbers["yes"];
+                $noCount += $numbers["no"];
+                $stats[] = array(
+                                "title" => $post->post_title,
+                                "link" => get_permalink($post->ID),
+                                "yes" => $numbers["yes"],
+                                "no" => $numbers["no"],
+                                "yesPercent" => ($numbers["yes"] + $numbers["no"] > 0) ? round(($numbers["yes"] * 100/($numbers["yes"] + $numbers["no"])), 1) : 0
+                );
+            }
+
+            if(!$sortBy) $sortBy    = "yesPercent";
+            if(!$sortOrder) $sortOrder    = "DESC";
+            uasort($stats, array( "HelpfulQmark", 'helpful_sort_stats_' . $sortBy . '_' . $sortOrder ));
         }
-
-
-        if(!$sortBy) $sortBy    = "yesPercent";
-        if(!$sortOrder) $sortOrder    = "DESC";
-        uasort($stats, array( "HelpfulQmark", 'helpful_sort_stats_' . $sortBy . '_' . $sortOrder ));
-
         return array(
                 "yes"           => $yesCount,
                 "no"            => $noCount,
