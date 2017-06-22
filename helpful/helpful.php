@@ -498,7 +498,7 @@ class HelpfulQmark{
     <div class="clear"></div>
 </div>
 <?php
-        $listing                = new Stats_List_Table(array("url" => admin_url('admin.php?page=' . __HELPFUL_PLUGIN_SLUG__ . '&sub=stats')));
+        $listing                = new Stats_List_Table(array("url" => admin_url('admin.php?page=' . __HELPFUL_PLUGIN_SLUG__ . '#tabs-statistics')));
         $listing->settings      = $settings;
         $listing->allStats      = $allStats;
         $listing->perPage       = $perPage;
