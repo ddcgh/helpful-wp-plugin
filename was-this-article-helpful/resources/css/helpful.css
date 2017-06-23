@@ -1,0 +1,62 @@
+div.wrap{width: 100%;}
+
+table.helpful_settings{width:95%;}
+table.helpful_settings tr th{text-align: left;}
+table.helpful_settings tr th, table.helpful_settings tr td{padding: 5px;}
+table.helpful_settings.ga td {width: 33%;}
+
+h2.helpful {margin: 20px 0px; border-bottom: 2px solid}
+
+div.helpful.form {background-color: #eeeeee; border: 1px solid #cccccc; padding: 10px}
+div.helpful div#click0, div.helpful div#click1 {clear: both;}
+div.helpful div#click0 .title {float: left; font-family: sans-serif; line-height: 3em; font-size: 1.1em; color: #494949}
+div.helpful div#click0 .hlp_buttons {float: right;}
+div.helpful div#click1 > div {display: none;}
+div.helpful div#click1 textarea, div.helpful div#click1 input[type="text"], div.helpful div#click1 input[type="email"] {width: 100%; resize:none; font-family: sans-serif; font-size:1.8rem; padding-top: 2px; padding-bottom: 2px; padding-left:2px; padding-right:0px}
+div.helpful div#click1 textarea {min-height: 100px}
+div#div_thanks {display: none; font-family: sans-serif}
+div.hlp_buttons div {display: inline-block;}
+
+.summary {overflow: auto;}
+.summary .item {margin-bottom: 5px; padding-bottom: 10px;}
+.summary .item .heading{color: #2a2b2d; text-transform: uppercase; border-bottom: 1px dotted #2a2b2d;}
+.summary .item .body{color: #2a2b2d;}
+
+a.no_value{cursor: none !important;}
+a.has_value{cursor: default !important;}
+a.thickbox.has_value{cursor: pointer !important;}
+
+button.no_value, a.no_value {opacity: 0.5;}
+button.no, button.yes, button.no:active, button.yes:active {border: 1px solid #CCC; background: linear-gradient(#FCFCFC, #E5E5E5); color: #494949; text-transform: none; font-family: sans-serif; font-size:0.9em; margin-top:4px;}
+button.no:hover, button.yes:hover {border-color: #ADADAD; color: #333;}
+
+::-webkit-input-placeholder {font-size:0.9em}
+::-moz-placeholder {font-size:0.9em}
+:-ms-input-placeholder {font-size:0.9em}
+
+#email_yes, #email_no {margin-top:3px;}
+
+.helpful_button {margin-top: 8px; text-transform:none; background-color:#646464; color:white; font-family: sans-serif; font-size:1em; padding:0.6em 1.4em; box-shadow: none}
+.helpful_button:hover {background-color:#908B8B; box-shadow: none}
+
+.subscript{
+	font-style: italic; 
+	font-size: smaller; 
+	vertical-align: sub;
+	margin-left: 5px;
+}
+
+td.column-helpful{vertical-align: middle;}
+.clear{clear:both;}
+
+div.stats {margin: 30px 0px;}
+div.stats div.overview {float: left;}
+div.stats div.overview .yesPercent{display: inline-block; font-size: 40px; color: #296889; font-weight:bold;}
+div.stats div.overview .title{display: inline-block; font-family: sans-serif}
+div.stats div.overview .yes, div.overview .no {font-weight: bold;}
+div.stats div.overview div.hlp_buttons{margin-top: 20px}
+div.stats div.download {float: right;}
+div.stats div.download input{width: 250px; text-align: center;}
+
+.email_alert {color: #FF0000;}
+.ga_disabled {display: none;}
